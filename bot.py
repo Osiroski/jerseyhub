@@ -23,14 +23,17 @@ def tweet(sample):
     with open(filename, 'wb') as image:
       for chunk in request:
         image.write(chunk)
-      first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
-      second=api.update_status(status=list1[0],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
-      third=api.update_status(status=list1[1],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
-      if len(list1)>2:
-        fourth=api.update_status(status=list1[2],in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
-        fifth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=fourth.id,auto_populate_reply_metadata=True)
-      else:
-        fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
+        try:
+            first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
+            second=api.update_status(status=list1[0],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+            third=api.update_status(status=list1[1],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+            if len(list1)>2:
+                fourth=api.update_status(status=list1[2],in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
+                fifth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=fourth.id,auto_populate_reply_metadata=True)
+            else:
+                fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
+        except Exception:
+            pass
       os.remove(filename)
   else:
     logger.info("Unable to download image")
