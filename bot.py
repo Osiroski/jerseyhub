@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 #Tweet function
-def tweet(sample):
+def tweet(sample,hours):
   filename = 'temp.jpg'
   request = requests.get(sample.iloc[0][1], stream=True)
   season=sample.iloc[0][2]
@@ -37,10 +37,11 @@ def tweet(sample):
 
 
 def main():
-    interval=10* 2
+    interval=60*60*hours
     while True:
         content=pd.read_csv('tweet.csv')
-        tweet(content.sample())
+        # Tweet and no of hours in delay
+        tweet(content.sample(),4)
         time.sleep(interval)
 
 if __name__ == "__main__":
