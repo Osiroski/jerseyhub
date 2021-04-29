@@ -18,26 +18,26 @@ def tweet(sample):
   jersey=sample.iloc[0][0]
   players=sample.iloc[0][3]
   jersey=''.join([i for i in jersey if not i.isdigit()]).replace('.','')
-  list1=sample.iloc[0][4].split('.')
+  list1=sample.iloc[0][4]
   api=twitter_api()
   if request.status_code == 200:
     with open(filename, 'wb') as image:
       for chunk in request:
         image.write(chunk)
-        try:
-            first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
-            second=api.update_status(status=list1[0],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
-            third=api.update_status(status=list1[1],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
-            if len(list1)>2:
-                fourth=api.update_status(status=list1[2],in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
-                fifth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=fourth.id,auto_populate_reply_metadata=True)
-            else:
-                fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
-        except Exception:
-            pass
+        first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
+        if len(list1)<=280:
+          second=api.update_status(status=list1,in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+          third=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+        elif len(list1)>280 and len(list1)<=560:
+          second=api.update_status(status=list1[:280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+          third=api.update_status(status=list1[280:],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+          fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
+        elif len(list1)>560:
+          second=api.update_status(status=list1[:280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+          third=api.update_status(status=list1[280:560],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+          fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
       os.remove(filename)
-  else:
-    logger.info("Unable to download image")
+      logger.info("Tweet sent. Going to sleep now...")
 
 
 def main():
@@ -48,7 +48,7 @@ def main():
         logger.info("Selecting tweet")
         # Tweet and no of hours in delay
         tweet(content.sample())
-        logger.info("Tweet sent. Going to sleep now...")
+        
         time.sleep(interval)
 
 if __name__ == "__main__":
