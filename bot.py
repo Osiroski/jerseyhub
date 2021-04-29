@@ -23,15 +23,17 @@ def tweet(sample):
     with open(filename, 'wb') as image:
       for chunk in request:
         image.write(chunk)
-        first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
         if len(list1)<=280:
+          first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
           second=api.update_status(status=list1,in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
           third=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
         elif len(list1)>280 and len(list1)<=560:
+          first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
           second=api.update_status(status=list1[:280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
           third=api.update_status(status=list1[280:],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
           fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
         elif len(list1)>560:
+          first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
           second=api.update_status(status=list1[:280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
           third=api.update_status(status=list1[280:560],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
           fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
