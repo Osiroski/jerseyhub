@@ -11,5 +11,6 @@ def twitter_api():
   auth.set_access_token(environ['ACCESS_TOKEN'],environ['ACCESS_SECRET'])
   #create API object
   api=tweepy.API(auth)
+  logger.info("API created")
   return api
   
