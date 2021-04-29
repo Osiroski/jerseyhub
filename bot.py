@@ -42,6 +42,7 @@ def tweet(sample):
 
 def main():
     interval=60*60*4
+    port = int(os.environ.get("PORT", 5000))
     while True:
         content=pd.read_csv('tweet.csv')
         logger.info("Selecting tweet")
