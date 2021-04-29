@@ -41,7 +41,7 @@ def main():
     while True:
         content=pd.read_csv('tweet.csv')
         # Tweet and no of hours in delay
-        tweet(content.sample(),4)
+        tweet(content.sample())
         time.sleep(interval)
 
 if __name__ == "__main__":
