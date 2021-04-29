@@ -5,6 +5,7 @@ import logging
 from config import twitter_api
 import requests
 import pandas as pd
+port = int(os.environ.get(“PORT”, 5000))
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
