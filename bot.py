@@ -46,6 +46,8 @@ def main():
         logger.info("Selecting tweet")
         # Tweet and no of hours in delay
         tweet(content.sample())
+        logger.info("Tweet sent. Going to sleep now...")
+
         
         time.sleep(interval)
 
