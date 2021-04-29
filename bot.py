@@ -36,7 +36,7 @@ def tweet(sample):
           third=api.update_status(status=list1[280:560],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
           fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
       os.remove(filename)
-      logger.info("Tweet sent. Going to sleep now...")
+      
 
 
 def main():
