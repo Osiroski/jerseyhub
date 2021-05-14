@@ -5,6 +5,7 @@ import logging
 from config import twitter_api
 import requests
 import pandas as pd
+import urllib.request
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -12,7 +13,7 @@ logger = logging.getLogger()
 #Tweet function
 def tweet(sample):
   filename = 'temp.jpg'
-  request = requests.get(sample.iloc[0][1], stream=True)
+  urllib.request.urlretrieve(sample.iloc[0][1], filename)
   season=sample.iloc[0][2]
   jersey=sample.iloc[0][0]
   players=sample.iloc[0][3]
@@ -20,27 +21,21 @@ def tweet(sample):
   list1=sample.iloc[0][4]
   api=twitter_api()
   chars=len(list1)
-  if request.status_code == 200:
-    with open(filename, 'wb') as image:
-      for chunk in request:
-        image.write(chunk)
-        first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
-        if chars<=280:
-          second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
-          mention=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
-        elif chars>280 and chars<=560:
-          second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
-          third=api.update_status(status=list1[281:561],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
-          fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
-        elif chars>560:
-          second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
-          third=api.update_status(status=list1[281:561],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
-          fourth=api.update_status(status=list1[561:761],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
-          fifth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
-      os.remove(filename)
+  first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
+  if chars<=280:
+    second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+    mention=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+  elif chars>280 and chars<=560:
+    second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+    third=api.update_status(status=list1[281:561],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+    fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
+  elif chars>560:
+    second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+    third=api.update_status(status=list1[281:561],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+    fourth=api.update_status(status=list1[561:761],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+    fifth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
+  os.remove(filename)
       
-
-
 def main():
     interval=60*60*4
     while True:
