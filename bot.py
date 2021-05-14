@@ -23,14 +23,14 @@ def tweet(sample):
   chars=len(list1)
   first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
   if chars<=280:
-    second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+    second=api.update_status(status=list1[:280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
     mention=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
   elif chars>280 and chars<=560:
-    second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+    second=api.update_status(status=list1[:280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
     third=api.update_status(status=list1[281:561],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
     fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
   elif chars>560:
-    second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+    second=api.update_status(status=list1[:280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
     third=api.update_status(status=list1[281:561],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
     fourth=api.update_status(status=list1[561:761],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
     fifth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
