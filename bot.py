@@ -19,24 +19,24 @@ def tweet(sample):
   jersey=''.join([i for i in jersey if not i.isdigit()]).replace('.','')
   list1=sample.iloc[0][4]
   api=twitter_api()
+  chars=len(list1)
   if request.status_code == 200:
     with open(filename, 'wb') as image:
       for chunk in request:
         image.write(chunk)
-        if len(list1)<=280:
-          first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
-          second=api.update_status(status=list1,in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
-          third=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
-        elif len(list1)>280 and len(list1)<=560:
-          first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
-          second=api.update_status(status=list1[:280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
-          third=api.update_status(status=list1[280:],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+        first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
+        if chars<=280:
+          second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+          mention=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+        elif chars>280 and chars<=560:
+          second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+          third=api.update_status(status=list1[281:561],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
           fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
-        elif len(list1)>560:
-          first=api.update_with_media(status='Jersey Today👕⚽\n{}\n{}\n{}\n'.format(jersey,season,players),filename=filename)
-          second=api.update_status(status=list1[:280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
-          third=api.update_status(status=list1[280:560],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
-          fourth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
+        elif chars>560:
+          second=api.update_status(status=list1[280],in_reply_to_status_id=first.id,auto_populate_reply_metadata=True)
+          third=api.update_status(status=list1[281:561],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+          fourth=api.update_status(status=list1[561:761],in_reply_to_status_id=second.id,auto_populate_reply_metadata=True)
+          fifth=api.update_status(status='Get your jerseys at @JerseyHub_254',in_reply_to_status_id=third.id,auto_populate_reply_metadata=True)
       os.remove(filename)
       
 
